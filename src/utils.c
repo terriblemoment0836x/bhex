@@ -35,7 +35,7 @@ uint8_t dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count, bool sho
             return 2;
     }
 
-    if (show_address) ("0x%014x:\t", 0x0);
+    if (show_address == true) printf("0x%014x:\t", 0x0);
     while ( byte_written < file_size)
     {
         fread(buff, sizeof(unsigned char), FREAD_BUFF_SIZE, fd);
@@ -54,7 +54,7 @@ uint8_t dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count, bool sho
             } 
             if ( separator_written != 0 && separator_written % column_count == 0) {
                 printf("\n"); 
-                if (show_address)
+                if (show_address == true)
                     printf("%#016x:\t", byte_written);
                 separator_written = 0;
                 }
