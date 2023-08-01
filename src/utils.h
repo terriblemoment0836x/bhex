@@ -2,11 +2,23 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
 #include <windows.h>
 #include <fileapi.h>
 
 // Read buffer size used by dump_bin
 #define FREAD_BUFF_SIZE 1024
+
+#define PRINTF_BIN_ARG(num) \
+    ( (num) & 0b10000000 ? '1' : '0'), ( (num) & 0b01000000 ? '1' : '0'), \
+    ( (num) & 0b00100000 ? '1' : '0'), ( (num) & 0b00010000 ? '1' : '0'), \
+    ( (num) & 0b00001000 ? '1' : '0'), ( (num) & 0b00000100 ? '1' : '0'), \
+    ( (num) & 0b00000010 ? '1' : '0'), ( (num) & 0b00000001 ? '1' : '0')
+
+enum num_types {
+    D_BINARY, D_HEXADECIMAL, D_OCTAL
+};
+
 
 /// @brief Return the file size in bytes of a file 
 /// @param file_path Path of the file
@@ -22,6 +34,4 @@ uint64_t get_file_size(char * file_path);
 /// @return 1: if there is an error reading the file, 2: if there is an error writing to stdout otherwise 0
 /// @todo return 1 or 2 on errors;
 /// @todo make the address relative to the file size
-uint8_t print_hex(FILE* fd, uint32_t column_size, uint32_t column_count, bool show_address, uint64_t file_size);
-
-uint8_t print_oct(FILE* fd, uint32_t column_size, uint32_t column_count, bool show_address, uint64_t file_size);
+uint8_t dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count, bool show_address, uint64_t file_size, enum num_types number_type);
