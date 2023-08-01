@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <fileapi.h>
 
+// Read buffer size used by dump_bin
 #define FREAD_BUFF_SIZE 1024
 
 /// @brief Return the file size in bytes of a file 
@@ -22,3 +23,5 @@ uint64_t get_file_size(char * file_path);
 /// @todo return 1 or 2 on errors;
 /// @todo make the address relative to the file size
 uint8_t print_hex(FILE* fd, uint32_t column_size, uint32_t column_count, bool show_address, uint64_t file_size);
+
+uint8_t print_oct(FILE* fd, uint32_t column_size, uint32_t column_count, bool show_address, uint64_t file_size);

@@ -19,7 +19,7 @@ uint8_t print_hex(FILE* fd, uint32_t column_size, uint32_t column_count, bool sh
     unsigned char buff[FREAD_BUFF_SIZE];
     uint32_t byte_written = 0;
 
-    printf("%016x:\t", byte_written);
+    printf("%#016x:\t", byte_written);
     while ( byte_written < file_size)
     {
         fread(buff, sizeof(unsigned char), FREAD_BUFF_SIZE, fd);
@@ -31,7 +31,31 @@ uint8_t print_hex(FILE* fd, uint32_t column_size, uint32_t column_count, bool sh
             if ( byte_written % column_size == 0)  printf(" ");
             if ( byte_written % column_count*column_size == 0) {
                 printf("\n"); 
-                printf("%016x:\t", byte_written);
+                printf("%#016x:\t", byte_written);
+                }
+        }
+
+    }
+
+    return 0;
+}
+uint8_t print_oct(FILE* fd, uint32_t column_size, uint32_t column_count, bool show_address, uint64_t file_size) {
+    unsigned char buff[FREAD_BUFF_SIZE];
+    uint32_t byte_written = 0;
+
+    printf("%#016o:\t", byte_written);
+    while ( byte_written < file_size)
+    {
+        fread(buff, sizeof(unsigned char), FREAD_BUFF_SIZE, fd);
+        int max_print = min(FREAD_BUFF_SIZE, file_size - byte_written);
+        for ( int i = 0; i < max_print; i++) {
+            printf("%03o", buff[i]);
+            byte_written++;
+            
+            if ( byte_written % column_size == 0)  printf(" ");
+            if ( byte_written % column_count*column_size == 0) {
+                printf("\n"); 
+                printf("%#016o:\t", byte_written);
                 }
         }
 
