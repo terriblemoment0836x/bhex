@@ -56,22 +56,26 @@ uint8_t dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count,
                 printf(" ");
                 separator_written++;
             } 
-            if ( separator_written != 0 && separator_written % column_count == 0 && show_ascii == true) {
-                printf(" [");
-                for ( int j = line_begin_index; j <= i; j++) {
-                    if ( buff[j] >= 36 && buff[j] <= 126)
-                        printf("%c", buff[j]);
-                    else printf(".");
+            if ( separator_written != 0 && separator_written % column_count == 0 ) {
+                if (show_ascii == true) {
+                    printf(" [");
+                    for (int j = line_begin_index; j <= i; j++)
+                    {
+                        if (buff[j] >= 36 && buff[j] <= 126)
+                            printf("%c", buff[j]);
+                        else
+                            printf(".");
+                    }
+                    printf("]");
+                    line_begin_index = i + 1;
                 }
-                printf("]");
-                line_begin_index = i+1;
                 printf("\n"); 
                 if (show_address == true)
                     printf("%#016x:\t", byte_written);
                 separator_written = 0;
                 }
         }
-        if ( show_address == true && (separator_written == 0 || separator_written % column_count != 0))
+        if ( show_ascii == true && (separator_written == 0 || separator_written % column_count != 0))
         {
                 printf(" [");
                 for (int j = line_begin_index; j < i; j++)
