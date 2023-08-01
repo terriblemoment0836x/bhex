@@ -1,5 +1,7 @@
 #include "utils.h"
 
+//TODO: make the address size in the output relative to the file size
+
 uint64_t get_file_size(char * file_path) {
     HANDLE hfile = CreateFile(file_path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
     if ( hfile == INVALID_HANDLE_VALUE) {
@@ -19,7 +21,7 @@ void print_hex(FILE* fd, uint32_t column_size, uint32_t column_count, bool show_
     unsigned char buff[FREAD_BUFF_SIZE];
     uint32_t byte_written = 0;
 
-    printf("%08x:\t", byte_written);
+    printf("%016x:\t", byte_written);
     while ( byte_written < file_size)
     {
         fread(buff, sizeof(unsigned char), FREAD_BUFF_SIZE, fd);
