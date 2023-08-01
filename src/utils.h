@@ -34,4 +34,6 @@ uint64_t get_file_size(char * file_path);
 /// @return 1: if there is an error reading the file, 2: if there is an error writing to stdout otherwise 0
 /// @todo return 1 or 2 on errors;
 /// @todo make the address relative to the file size
-uint8_t dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count, bool show_address, uint64_t file_size, enum num_types number_type);
+uint8_t dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count,
+    bool show_address, bool show_ascii,
+    uint64_t file_size, enum num_types number_type);

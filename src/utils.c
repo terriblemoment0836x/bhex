@@ -15,10 +15,14 @@ uint64_t get_file_size(char * file_path) {
     return size.QuadPart;
 }
 
-uint8_t dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count, bool show_address, uint64_t file_size, enum num_types number_type) {
+uint8_t dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count,
+    bool show_address, bool show_ascii,
+    uint64_t file_size, enum num_types number_type) {
     unsigned char buff[FREAD_BUFF_SIZE];
     uint32_t byte_written = 0;
     uint32_t separator_written = 0;
+    uint32_t line_begin_index = 0;
+    int i;
     char printf_template[21];
 
     switch(number_type) {
@@ -40,7 +44,7 @@ uint8_t dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count, bool sho
     {
         fread(buff, sizeof(unsigned char), FREAD_BUFF_SIZE, fd);
         int max_print = min(FREAD_BUFF_SIZE, file_size - byte_written);
-        for ( int i = 0; i < max_print; i++) {
+        for ( i = 0; i < max_print; i++) {
             if ( number_type == D_BINARY)
                 printf(printf_template, PRINTF_BIN_ARG(buff[i]));
             else
@@ -52,14 +56,32 @@ uint8_t dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count, bool sho
                 printf(" ");
                 separator_written++;
             } 
-            if ( separator_written != 0 && separator_written % column_count == 0) {
+            if ( separator_written != 0 && separator_written % column_count == 0 && show_ascii == true) {
+                printf(" [");
+                for ( int j = line_begin_index; j <= i; j++) {
+                    if ( buff[j] >= 36 && buff[j] <= 126)
+                        printf("%c", buff[j]);
+                    else printf(".");
+                }
+                printf("]");
+                line_begin_index = i+1;
                 printf("\n"); 
                 if (show_address == true)
                     printf("%#016x:\t", byte_written);
                 separator_written = 0;
                 }
         }
-
+        if ( show_address == true && (separator_written == 0 || separator_written % column_count != 0))
+        {
+                printf(" [");
+                for (int j = line_begin_index; j < i; j++)
+                {
+                    if ( buff[j] >= 36 && buff[j] <= 126)
+                        printf("%c", buff[j]);
+                    else printf(".");
+                }
+                printf("]\n");
+        }
     }
 
     return 0;
