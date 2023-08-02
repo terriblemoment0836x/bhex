@@ -5,9 +5,10 @@
 #include <string.h>
 #include <windows.h>
 #include <fileapi.h>
+#include <assert.h>
 
 // Read buffer size used by dump_bin
-#define FREAD_BUFF_SIZE 1024
+#define FREAD_BUFF_SIZE 7
 
 #define PRINTF_BIN_ARG(num) \
     ( (num) & 0b10000000 ? '1' : '0'), ( (num) & 0b01000000 ? '1' : '0'), \
@@ -37,3 +38,6 @@ uint64_t get_file_size(char * file_path);
 uint8_t dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count,
     bool show_address, bool show_ascii,
     uint64_t file_size, enum num_types number_type);
+
+uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t column_size, enum num_types number_type);
+void print_line_ascii(uint8_t * buff, uint32_t start, uint32_t end);
