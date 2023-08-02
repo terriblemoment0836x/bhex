@@ -17,7 +17,7 @@
     ( (num) & 0b00000010 ? '1' : '0'), ( (num) & 0b00000001 ? '1' : '0')
 
 enum num_types {
-    D_BINARY, D_HEXADECIMAL, D_OCTAL
+    D_BINARY = 8, D_HEXADECIMAL = 2, D_OCTAL = 3
 };
 
 

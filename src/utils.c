@@ -25,12 +25,11 @@ uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
     uint64_t buffer_size = file_size + line_size;
     buffer_size -= buffer_size % line_size;
     
-    printf("file size = %d, line size = %d so the buffer size is = %d\n", file_size, line_size, buffer_size);
     uint32_t bytes_read;
     uint32_t buffer_index;
     uint32_t line_end;
     uint8_t input_buffer[buffer_size];
-    uint8_t t;
+    uint8_t t = 0;
     const uint8_t ascii_distance = 8;
     uint32_t file_position = 0;
 
@@ -41,14 +40,17 @@ uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
         while ( buffer_index < bytes_read ) {
             line_end = min(buffer_index + line_size, bytes_read);
 
-            t = printf("0x%#08x:\t", file_position + buffer_index);
+            if (show_address == true) {
+                t = printf("0x%#08x:\t", file_position + buffer_index);
+            }
             print_line_dump(input_buffer, buffer_index, line_end, column_size, number_type);
 
-            printf("\r");
-            printf("%c[%dC", 0x1B, 2*line_size + column_count + ascii_distance + t);
+            if (show_ascii == true) {
+                printf("\r");
+                printf("%c[%dC", 0x1B, number_type * line_size + column_count + ascii_distance + t);
 
-            print_line_ascii(input_buffer, buffer_index, line_end);
-
+                print_line_ascii(input_buffer, buffer_index, line_end);
+            }
             printf("\n");
 
             buffer_index += line_size;
@@ -56,7 +58,7 @@ uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
         file_position += buffer_index;
 
     } while ( bytes_read == buffer_size );
-    printf("0x%#08x:\t", file_position);
+    if (show_address == true) printf("0x%#08x:\t", file_position);
 
     assert(!ferror(fd));
 

@@ -13,7 +13,7 @@ int main(int argc, char  *argv[])
     uint64_t file_size = get_file_size(file_path);
     // printf("%d\n", get_file_size(file_path));
     printf("\nHEX OUTPUT\n");
-    dump_bin(f, 1 , 1, false, true, file_size, D_HEXADECIMAL);
+    dump_bin(f, 1, 10, true, true, file_size, D_HEXADECIMAL);
 
     return 0;
 }
