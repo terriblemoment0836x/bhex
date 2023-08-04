@@ -43,13 +43,13 @@ uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
             if (show_address == true) {
                 t = printf("0x%#08x:\t", file_position + buffer_index);
             }
-            print_line_dump(input_buffer, buffer_index, line_end, column_size, number_type);
+            print_line_dump(input_buffer, buffer_index, line_end, column_size, number_type, enable_colors);
 
             if (show_ascii == true) {
                 printf("\r");
                 printf("%c[%dC", 0x1B, number_type * line_size + column_count + ascii_distance + t);
 
-                print_line_ascii(input_buffer, buffer_index, line_end);
+                print_line_ascii(input_buffer, buffer_index, line_end, enable_colors);
             }
             printf("\n");
 
@@ -65,7 +65,7 @@ uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
     return 0;
     
 }
-uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t column_size, enum num_types number_type) {
+uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t column_size, enum num_types number_type, bool enable_color) {
     static bool color_enabled = false;
     static uint8_t color_code = 33;
 
@@ -85,7 +85,7 @@ uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t c
             return 2;
     }
         for (unsigned int i = start; i < end; i++) {
-            if (configure_color(buff[i], color_code, i == end - 1) == true ) {
+            if (enable_color == true && configure_color(buff[i], color_code, i == end - 1) == true ) {
                 color_code = (color_code == 37) ? 33 : color_code + 1;
             }
             if ( number_type == D_BINARY)
@@ -99,13 +99,11 @@ uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t c
         return 0;
 }
 
-void print_line_ascii(uint8_t * buff, uint32_t start, uint32_t end) {
+void print_line_ascii(uint8_t * buff, uint32_t start, uint32_t end, bool enable_color) {
     static uint8_t color_code = 33;
-    char temp = buff[end];
-    buff[end] = '\0';
     printf("[");
     while ( start < end ) {
-            if (configure_color(buff[start], color_code, start == end - 1) == true ) {
+            if ( enable_color == true && configure_color(buff[start], color_code, start == end - 1) == true ) {
                 color_code = (color_code == 37) ? 33 : color_code + 1;
             }
             if (buff[start] >= 36 && buff[start] <= 126) {
@@ -118,7 +116,6 @@ void print_line_ascii(uint8_t * buff, uint32_t start, uint32_t end) {
     }
     disable_color();
     printf("]");
-    buff[end] = temp;
 }
 
 void disable_color() {

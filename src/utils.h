@@ -40,8 +40,8 @@ uint8_t dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count,
     bool show_address, bool show_ascii, bool enable_colors,
     uint64_t file_size, enum num_types number_type);
 
-uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t column_size, enum num_types number_type);
-void print_line_ascii(uint8_t * buff, uint32_t start, uint32_t end);
+uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t column_size, enum num_types number_type, bool enable_color);
+void print_line_ascii(uint8_t * buff, uint32_t start, uint32_t end, bool enable_color);
 
 bool configure_color(uint8_t c, uint8_t color_code, uint8_t reset);
 
