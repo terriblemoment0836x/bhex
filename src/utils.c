@@ -15,7 +15,7 @@ uint64_t get_file_size(char * file_path) {
     return size.QuadPart;
 }
 uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
-                 bool show_address, bool show_ascii,
+                 bool show_address, bool show_ascii, bool enable_colors,
                  uint64_t file_size, enum num_types number_type)
 {
     assert(fd != NULL);
@@ -66,9 +66,13 @@ uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
     
 }
 uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t column_size, enum num_types number_type) {
+    static bool color_enabled = false;
+    static uint8_t color_code = 33;
+
     char printf_template[20];
     switch(number_type) {
         case D_HEXADECIMAL:
+            // strcpy(printf_template, "%c");
             strcpy(printf_template, "%02x");
             break;
         case D_OCTAL:
@@ -81,6 +85,9 @@ uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t c
             return 2;
     }
         for (unsigned int i = start; i < end; i++) {
+            if (configure_color(buff[i], color_code, i == end - 1) == true ) {
+                color_code = (color_code == 37) ? 33 : color_code + 1;
+            }
             if ( number_type == D_BINARY)
                 printf(printf_template, PRINTF_BIN_ARG(buff[i]));
             else
@@ -88,19 +95,48 @@ uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t c
             
             if ( (i+1) % column_size == 0) printf(" ");
         }
+        disable_color();
         return 0;
 }
 
 void print_line_ascii(uint8_t * buff, uint32_t start, uint32_t end) {
+    static uint8_t color_code = 33;
     char temp = buff[end];
     buff[end] = '\0';
     printf("[");
     while ( start < end ) {
-            if (buff[start] >= 36 && buff[start] <= 126)
+            if (configure_color(buff[start], color_code, start == end - 1) == true ) {
+                color_code = (color_code == 37) ? 33 : color_code + 1;
+            }
+            if (buff[start] >= 36 && buff[start] <= 126) {
                 printf("%c", buff[start]);
-            else printf(".");
+            }
+            else {
+                printf(".");
+            }
             ++start;
     }
+    disable_color();
     printf("]");
     buff[end] = temp;
+}
+
+void disable_color() {
+    printf("%c[0m", 0x1b);
+}
+
+bool configure_color(uint8_t c, uint8_t color_code, uint8_t reset) {
+    static bool color_enabled = false;
+            if (c >= 36 && c <= 126) {
+                if (color_enabled != true) {
+                    color_enabled = true;
+                    printf("%c[%dm", 0x1b, color_code);
+                }
+                color_enabled = ! reset;
+                return false;
+            }
+
+            color_enabled = false;
+            disable_color();
+            return true;
 }

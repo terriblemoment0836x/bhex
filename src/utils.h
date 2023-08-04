@@ -1,4 +1,5 @@
-
+#ifndef _H_UTILS_
+#define _H_UTILS_
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -36,8 +37,16 @@ uint64_t get_file_size(char * file_path);
 /// @todo return 1 or 2 on errors;
 /// @todo make the address relative to the file size
 uint8_t dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count,
-    bool show_address, bool show_ascii,
+    bool show_address, bool show_ascii, bool enable_colors,
     uint64_t file_size, enum num_types number_type);
 
 uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t column_size, enum num_types number_type);
 void print_line_ascii(uint8_t * buff, uint32_t start, uint32_t end);
+
+bool configure_color(uint8_t c, uint8_t color_code, uint8_t reset);
+
+void enable_color();
+
+void disable_color();
+
+#endif
