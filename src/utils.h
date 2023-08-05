@@ -1,8 +1,10 @@
 #ifndef _H_UTILS_
 #define _H_UTILS_
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include <string.h>
 #include <windows.h>
 #include <fileapi.h>
@@ -29,6 +31,7 @@ enum num_types {
 /// @var settings::number_type
 /// Dump type (hex, bin or oct)
 struct settings {
+    char * file_path;
     bool enable_color;
     bool enable_address;
     bool enable_ascii;
@@ -39,6 +42,12 @@ struct settings {
 /// @brief Return a pointer to settings structure containing the default settings.
 /// @return Pointer to the settings structure.
 struct settings* init_settings();
+
+/// @brief Print the structure settings
+/// @param Pointer to the structure
+void print_settings(struct settings* param);
+
+/// @brief Free the dynamically allocated settings structure.
 void free_settings(struct settings* param);
 
 /// @brief Reflect the argument to the settings structure
@@ -48,6 +57,14 @@ void free_settings(struct settings* param);
 /// @return false if the command line arguments are invalid, else return true
 bool parse_arguments(int argc, char **argv, struct settings* params);
 
+/// @brief Show the program usage.
+void show_help();
+
+/// @brief Convert a number in str to uint32
+/// @param str Number as string
+/// @param status to indicate the status of the conversion
+/// @return the converted number
+uint32_t str_to_posint32(char *str, bool *status);
 
 /// @brief Return the file size in bytes of a file 
 /// @param file_path Path of the file
