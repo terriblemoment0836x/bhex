@@ -5,7 +5,7 @@ uint64_t get_file_size(char * file_path) {
     LARGE_INTEGER size;
 
     if ( hfile == INVALID_HANDLE_VALUE) {
-        perror("Error calculating the size of the file.");
+        perror("Error calculating the size of the file.\n");
         exit(1);
     }
     
@@ -56,7 +56,7 @@ void show_help() {
     printf("\t-s n: Set the column size of n number.\n");
     printf("\t-c n: Set the column number to n.\n");
     printf("\t-n hex|oct|bin: Specify the dump type.\n");
-    printf("\tFILENAME: a readable file.");
+    printf("\tFILENAME: a readable file.\n");
 }
 
 
@@ -65,8 +65,11 @@ bool parse_arguments(int argc, char **argv, struct settings* params) {
     int c;
     bool status;
 
-    while ( (c = getopt(argc, argv, "lbfs:c:n:")) != -1 ) {
+    while ( (c = getopt(argc, argv, "lbfs:c:n:h")) != -1 ) {
         switch(c) {
+            case 'h':
+                show_help();
+                return false;
             case 'l':
                 params->enable_address = false;
                 break;
@@ -77,38 +80,45 @@ bool parse_arguments(int argc, char **argv, struct settings* params) {
                 params->enable_ascii = false;
                 break;
             case 's':
-                printf("handling the s arg\n");
                 params->column_size = str_to_posint32(optarg, &status);
-                if (status == false)
-                {
-                    show_help();
+                 if ( status == false )  {
+                    printf("Invalid column size.\n");
+                    return status;
                  }
                 break;
             case 'c':
                  params->column_count = str_to_posint32(optarg, &status);
-                 if (status == false) {
-                    show_help();
+                 if ( status == false )  {
+                    printf("Invalid column count.\n");
+                    return status;
                  }
-                break;
+                 break;
             case 'n':
-                params->number_type = (strncmp(optarg, "bin", 4) == 0) ? D_BINARY
-                                        : (strncmp(optarg, "hex", 4) == 0) ? D_HEXADECIMAL
-                                        : (strncmp(optarg, "oct", 4) == 0) ? D_OCTAL
-                                        : (assert(0), D_OCTAL);
+                if (strncmp(optarg, "bin", 4) == 0) {
+                    params->number_type = D_BINARY;
+                } else if (strncmp(optarg, "hex", 4) == 0) {
+                    params->number_type = D_HEXADECIMAL;
+                } else if (strncmp(optarg, "oct", 4) == 0) {
+                    params->number_type = D_OCTAL;
+                } else {
+                    printf("Invalid number type.");
+                    return false;
+                }
                 break;
             case '?':
-                show_help();
                 return false;
             default:
                 return false;
         }
     }
-    printf("%d %d\n", optind, argc);
+
+    // printf("%d %d\n", optind, argc);
+
     if ( optind == argc ) {
-        printf("No file is specified\n");
+        printf("Error: No file is specified, use -h to show the help.\n");
         return false;
     }  else if (argc - optind > 1) {
-        printf("multiple files are specified.\n");
+        printf("Error: Multiple files are specified.\n");
         return false;
     }
 
