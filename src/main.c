@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 #include "utils.h"
+#include "dump.h"
 
 
 int main(int argc, char  *argv[])
