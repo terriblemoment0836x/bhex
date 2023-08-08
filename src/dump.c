@@ -1,20 +1,25 @@
 #include "dump.h"
 
-uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
+bool dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
                  bool show_address, bool show_ascii, bool enable_colors,
-                 uint64_t file_size, enum num_types number_type)
+                 enum num_types number_type)
 {
-    assert(fd != NULL);
-    assert(column_count != 0 && column_size != 0);
+    if (fd == NULL) return false;
+    if (column_count == 0 || column_size == 0) return false;
+    switch (number_type) {
+        case D_HEXADECIMAL:
+        case D_BINARY:
+        case D_OCTAL:
+            break;
+        default:
+            return false;
+    }
 
     const uint32_t line_size = column_count*column_size;
     uint64_t buffer_size = line_size * 100;
-
-    
     uint32_t bytes_read;
     uint32_t buffer_index;
     uint32_t line_end;
-    // uint8_t input_buffer[buffer_size];
     uint8_t *input_buffer = (uint8_t *) malloc(sizeof(uint8_t) * buffer_size);
     uint8_t t = 0;
     const uint8_t ascii_distance = 8;
@@ -31,12 +36,12 @@ uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
                 t = printf("0x%08x:\t", file_position + buffer_index);
             }
 
-            print_line_dump(input_buffer, buffer_index, line_end, column_size, number_type, enable_colors);
+            if ( print_line_dump(input_buffer, buffer_index, line_end, column_size, number_type, enable_colors) == false ) 
+                return false;
 
             if (show_ascii == true) {
                 printf("\r");
                 printf("%c[%dC", 0x1B, number_type * line_size + column_count + ascii_distance + t);
-
                 print_line_ascii(input_buffer, buffer_index, line_end, enable_colors);
             }
 
@@ -48,15 +53,16 @@ uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
 
     } while ( bytes_read == buffer_size );
 
+    if ( ferror(fd) ) return false;
+
     if (show_address == true) printf("0x%08x:\t", file_position);
 
-    assert(!ferror(fd));
     free(input_buffer);
 
-    return 0;
+    return true;
     
 }
-uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t column_size, enum num_types number_type, bool enable_color) {
+bool print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t column_size, enum num_types number_type, bool enable_color) {
     static uint8_t color_code = 1;
     char printf_template[20];
 
@@ -72,7 +78,7 @@ uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t c
             strcpy(printf_template, "%c%c%c%c%c%c%c%c");
             break;
         default:
-            return 2;
+            return false;
     }
 
     for (unsigned int i = start; i < end; i++)
@@ -91,7 +97,7 @@ uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t c
     }
 
     printf("%c[0m", 0x1b);
-    return 0;
+    return true;
 }
 
 void print_line_ascii(uint8_t * buff, uint32_t start, uint32_t end, bool enable_color) {

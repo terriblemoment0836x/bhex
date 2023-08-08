@@ -39,8 +39,9 @@ struct settings {
     uint32_t column_count;
     enum num_types number_type;
 };
+
 /// @brief Return a pointer to settings structure containing the default settings.
-/// @return Pointer to the settings structure.
+/// @return Pointer to the settings structure or NULL on error.
 struct settings* init_settings();
 
 /// @brief Print the structure settings
@@ -53,22 +54,22 @@ void free_settings(struct settings* param);
 /// @brief Reflect the argument to the settings structure
 /// @param argc Number of arguments
 /// @param argv Pointer to array of argument strings
-/// @param Pointer to the settings structure.
+/// @param params Pointer to the settings structure.
 /// @return false if the command line arguments are invalid, else return true
 bool parse_arguments(int argc, char **argv, struct settings* params);
 
 /// @brief Show the program usage.
 void show_help();
 
-/// @brief Convert a number in str to uint32
-/// @param str Number as string
-/// @param status to indicate the status of the conversion
-/// @return the converted number
+/// @brief Convert a number in str to uint32.
+/// @param str Number as string.
+/// @param status Pointer to bool used to indicate if the conversion is succesfull (set to true) or not (set to false).
+/// @return The converted number.
 uint32_t str_to_posint32(char *str, bool *status);
 
 /// @brief Return the file size in bytes of a file 
 /// @param file_path Path of the file
 /// @return File size
-uint64_t get_file_size(char * file_path);
+// uint64_t get_file_size(char * file_path);
 
 #endif

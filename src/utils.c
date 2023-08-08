@@ -1,19 +1,19 @@
 #include "utils.h"
 
-uint64_t get_file_size(char * file_path) {
-    HANDLE hfile = CreateFile(file_path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-    LARGE_INTEGER size;
+// uint64_t get_file_size(char * file_path) {
+//     HANDLE hfile = CreateFile(file_path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+//     LARGE_INTEGER size;
 
-    if ( hfile == INVALID_HANDLE_VALUE) {
-        perror("Error calculating the size of the file.\n");
-        exit(1);
-    }
+//     if ( hfile == INVALID_HANDLE_VALUE) {
+//         perror("Error calculating the size of the file.\n");
+//         exit(1);
+//     }
     
-    GetFileSizeEx(hfile, &size);
-    CloseHandle(hfile);
+//     GetFileSizeEx(hfile, &size);
+//     CloseHandle(hfile);
 
-    return size.QuadPart;
-}
+//     return size.QuadPart;
+// }
 
 struct settings* init_settings() {
     struct settings* ptr_param = (struct settings*) malloc(sizeof(struct settings));
@@ -82,14 +82,14 @@ bool parse_arguments(int argc, char **argv, struct settings* params) {
             case 's':
                 params->column_size = str_to_posint32(optarg, &status);
                  if ( status == false )  {
-                    printf("Invalid column size.\n");
+                    perror("Invalid column size.\n");
                     return status;
                  }
                 break;
             case 'c':
                  params->column_count = str_to_posint32(optarg, &status);
                  if ( status == false )  {
-                    printf("Invalid column count.\n");
+                    perror("Invalid column count.\n");
                     return status;
                  }
                  break;
@@ -101,7 +101,7 @@ bool parse_arguments(int argc, char **argv, struct settings* params) {
                 } else if (strncmp(optarg, "oct", 4) == 0) {
                     params->number_type = D_OCTAL;
                 } else {
-                    printf("Invalid number type.");
+                    perror("Invalid number type.");
                     return false;
                 }
                 break;
@@ -115,10 +115,10 @@ bool parse_arguments(int argc, char **argv, struct settings* params) {
     // printf("%d %d\n", optind, argc);
 
     if ( optind == argc ) {
-        printf("Error: No file is specified, use -h to show the help.\n");
+        perror("Error: No file is specified, use -h to show the help.\n");
         return false;
     }  else if (argc - optind > 1) {
-        printf("Error: Multiple files are specified.\n");
+        perror("Error: Multiple files are specified.\n");
         return false;
     }
 
