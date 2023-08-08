@@ -1,4 +1,4 @@
-# bhex (Beyound Hex) (Work in progress)
+# bhex (Beyond Hex) (Work in progress)
 bhex is a simple console hex dumping utility with color support.
 
 ## Screenshot:
