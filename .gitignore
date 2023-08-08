@@ -2,6 +2,8 @@
 # Prerequisites
 *.d
 
+progress.md
+
 build/
 .cache/
 .vscode/
