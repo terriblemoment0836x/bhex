@@ -12,6 +12,7 @@
     - make the address relative to the file size
 
 ### Todo:
+    - Check for color support in the running terminal
     --- version (alpha) ---
     - Code testing
     - Optimisation
