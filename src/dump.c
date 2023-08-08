@@ -4,7 +4,6 @@ bool dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
                  bool show_address, bool show_ascii, bool enable_colors,
                  enum num_types number_type, uint32_t address_digit_count)
 {
-    printf("%d\n", address_digit_count);
     if (fd == NULL) return false;
     if (column_count == 0 || column_size == 0) return false;
     switch (number_type) {
