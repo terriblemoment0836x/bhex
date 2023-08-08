@@ -57,7 +57,7 @@ uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
     
 }
 uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t column_size, enum num_types number_type, bool enable_color) {
-    static uint8_t color_code = 33;
+    static uint8_t color_code = 1;
     char printf_template[20];
 
     switch(number_type) {
@@ -78,7 +78,7 @@ uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t c
     for (unsigned int i = start; i < end; i++)
     {
             if (enable_color == true && configure_color(buff[i], color_code, i == end - 1) == true) {
-                color_code = (color_code == 37) ? 33 : color_code + 1;
+                color_code = (color_code == 228) ? 1 : color_code + 1;
             }
 
             if (number_type == D_BINARY)
@@ -95,13 +95,13 @@ uint8_t print_line_dump(uint8_t * buff, uint32_t start, uint32_t end, uint32_t c
 }
 
 void print_line_ascii(uint8_t * buff, uint32_t start, uint32_t end, bool enable_color) {
-    static uint8_t color_code = 33;
+    static uint8_t color_code = 1;
 
     printf("[");
 
     while ( start < end ) {
             if ( enable_color == true && configure_color(buff[start], color_code, start == end - 1) == true ) {
-                color_code = (color_code == 37) ? 33 : color_code + 1;
+                color_code = (color_code == 228) ? 1 : color_code + 1;
             }
 
             if (buff[start] >= 36 && buff[start] <= 126) {
@@ -125,7 +125,7 @@ bool configure_color(uint8_t c, uint8_t color_code, uint8_t reset) {
     if (c >= 36 && c <= 126) { // c in printable
         if (color_enabled != true) {
             color_enabled = true;
-            printf("%c[%dm", 0x1b, color_code);
+            printf("%c[38;5;%dm", 0x1b, color_code);
         }
 
         if ( reset ) color_enabled = ! reset;
