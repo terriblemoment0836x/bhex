@@ -1,4 +1,0 @@
-- Basics of cmake.
-- Reading from a file in buffers
-- how to comment code such that it interpreted using doxygene
-- Windows terminal command sequences
