@@ -8,13 +8,14 @@ uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
     assert(column_count != 0 && column_size != 0);
 
     const uint32_t line_size = column_count*column_size;
-    uint64_t buffer_size = file_size + line_size;
-    buffer_size -= buffer_size % line_size;
+    uint64_t buffer_size = line_size * 100;
+
     
     uint32_t bytes_read;
     uint32_t buffer_index;
     uint32_t line_end;
-    uint8_t input_buffer[buffer_size];
+    // uint8_t input_buffer[buffer_size];
+    uint8_t *input_buffer = (uint8_t *) malloc(sizeof(uint8_t) * buffer_size);
     uint8_t t = 0;
     const uint8_t ascii_distance = 8;
     uint32_t file_position = 0;
@@ -27,7 +28,7 @@ uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
             line_end = min(buffer_index + line_size, bytes_read);
 
             if (show_address == true) {
-                t = printf("0x%#08x:\t", file_position + buffer_index);
+                t = printf("0x%08x:\t", file_position + buffer_index);
             }
 
             print_line_dump(input_buffer, buffer_index, line_end, column_size, number_type, enable_colors);
@@ -47,9 +48,10 @@ uint8_t dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
 
     } while ( bytes_read == buffer_size );
 
-    if (show_address == true) printf("0x%#08x:\t", file_position);
+    if (show_address == true) printf("0x%08x:\t", file_position);
 
     assert(!ferror(fd));
+    free(input_buffer);
 
     return 0;
     

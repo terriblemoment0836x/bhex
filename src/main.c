@@ -23,6 +23,7 @@ int main(int argc, char  *argv[])
              params->enable_address, params->enable_ascii, params->enable_color,
              file_size, params->number_type);
 
+    fclose(f);
     free_settings(params);
 
     return 0;

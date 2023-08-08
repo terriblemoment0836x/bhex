@@ -6,6 +6,7 @@
     - Clean up unused variables / functions.
     - Add support for changing the program behavior using arguments. **
     - Document the code
+    - optimize the buffer size
 
 ### Todo:
     --- version (alpha) ---
