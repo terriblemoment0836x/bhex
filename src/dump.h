@@ -26,9 +26,9 @@
 /// @param enable_colors Whether to show matching colors for strings in th dump and the ascii parts.
 /// @param number_type A enum num_types representing the base used for the dump.
 /// @return false on error and true on success.
-bool dump_bin(FILE* fd, uint32_t column_size, uint32_t column_count,
-    bool show_address, bool show_ascii, bool enable_colors,
-    enum num_types number_type);
+bool dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
+              bool show_address, bool show_ascii, bool enable_colors,
+              enum num_types number_type, uint32_t address_digit_count);
 
 /// @brief Print to stdout buff from start to end as hex, bin or oct specified by number_type
 /// @param buff pointer to char buffer
@@ -54,5 +54,6 @@ void print_line_ascii(uint8_t * buff, uint32_t start, uint32_t end, bool enable_
 /// @param reset Disable coloring (used by the final call of a function to make this function reading for an other use).
 /// @return Whether the color need to change or not (its true when c in not a printable character).
 bool configure_color(uint8_t c, uint8_t color_code, uint8_t reset);
+
 
 #endif

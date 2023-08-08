@@ -9,6 +9,7 @@
 #include <windows.h>
 #include <fileapi.h>
 #include <assert.h>
+#include <math.h>
 
 /// @brief Base of the numbers in the dump, used also to represent the number of digits of each number
 enum num_types {
@@ -70,6 +71,12 @@ uint32_t str_to_posint32(char *str, bool *status);
 /// @brief Return the file size in bytes of a file 
 /// @param file_path Path of the file
 /// @return File size
-// uint64_t get_file_size(char * file_path);
+uint64_t get_file_size(char * file_path);
+
+/// @brief Return the number of digits need to represent number in base.
+/// @param base The base to consider
+/// @param number  The number to consider
+/// @return The number of digits
+uint32_t digit_count(uint32_t base, int64_t number);
 
 #endif

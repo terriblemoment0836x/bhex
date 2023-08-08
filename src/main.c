@@ -8,6 +8,7 @@
 
 int main(int argc, char  *argv[])
 {
+
     struct settings* params = init_settings();
 
     if ( parse_arguments(argc, argv, params) == false ) {
@@ -25,9 +26,12 @@ int main(int argc, char  *argv[])
         return 1;
     }
 
+
+    uint64_t file_size = get_file_size(params->file_path);
+
     bool dump_status = dump_bin(fd, params->column_size, params->column_count,
              params->enable_address, params->enable_ascii, params->enable_color,
-             params->number_type);
+             params->number_type, digit_count(16, file_size));
 
     if ( dump_status == false ) {
         perror("An error occured while dumping the file.\n");
