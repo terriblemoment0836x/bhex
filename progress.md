@@ -9,12 +9,12 @@
     - optimize the buffer size
     - Add a variety of colors
     - Error handling and make a consistant use of bool
+    - make the address relative to the file size
 
 ### Todo:
     --- version (alpha) ---
     - Code testing
     - Optimisation
-    - make the address relative to the file size
     - check for overflows
     --- version 0.1 (beta) ---
     - Add a basic bruteforce implementation of searching for strings.
