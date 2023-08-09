@@ -146,3 +146,26 @@ uint32_t str_to_posint32(char *str, bool *status) {
 uint32_t digit_count(uint32_t base, int64_t number) {
     return floor( log2(_abs64(number))/log2(base) ) + 1;
 }
+
+bool enable_terminal_color() {
+    // Set output mode to handle virtual terminal sequences
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut == INVALID_HANDLE_VALUE)
+    {
+        return GetLastError();
+    }
+
+    DWORD dwMode = 0;
+    if (!GetConsoleMode(hOut, &dwMode))
+    {
+        return GetLastError();
+    }
+
+    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    if (!SetConsoleMode(hOut, dwMode))
+    {
+        return GetLastError();
+    }
+    
+    return true;
+}

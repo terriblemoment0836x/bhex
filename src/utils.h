@@ -79,4 +79,9 @@ uint64_t get_file_size(char * file_path);
 /// @return The number of digits
 uint32_t digit_count(uint32_t base, int64_t number);
 
+
+/// @brief Enable support for ASCI escape sequences on windows.
+/// @return True on success or False on failure.
+bool enable_terminal_color(); 
+
 #endif
