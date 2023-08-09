@@ -6,4 +6,4 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin/)
 
 set(CMAKE_C_FLAGS "-g -Wall -Wextra")
 
-add_executable(hex_dump src/main.c src/utils.c src/dump.c)
+add_executable(bhex src/main.c src/utils.c src/dump.c)

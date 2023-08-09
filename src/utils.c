@@ -48,7 +48,7 @@ void print_settings(struct settings* param) {
 }
 
 void show_help() {
-    printf("hex_dump: An other hex dumper with color support.\n");
+    printf("bhex: An other hex dumper with color support.\n");
     printf("Usage: hex_dump [-lbf] [-s n] [-c n] [-n hex|oct|bin] FILENAME\n");
     printf("\t-l: Don't show the address column.\n");
     printf("\t-b: Disable colors.\n");

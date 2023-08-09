@@ -10,13 +10,17 @@
     - Add a variety of colors
     - Error handling and make a consistant use of bool
     - make the address relative to the file size
+    - Check for color support in the running terminal
+    - Set up the repo.
 
 ### Todo:
-    - Check for color support in the running terminal
     - Code testing
+    - Add a basic bruteforce implementation of searching for strings.
+    - Linux support
+
+    An other time:
     --- version (alpha) ---
     - Optimisation
     - check for overflows
     --- version 0.1 (beta) ---
-    - Add a basic bruteforce implementation of searching for strings.
     - Look up others feutures of hexdump and add them to the specsc.
