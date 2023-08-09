@@ -13,8 +13,8 @@
 
 ### Todo:
     - Check for color support in the running terminal
-    --- version (alpha) ---
     - Code testing
+    --- version (alpha) ---
     - Optimisation
     - check for overflows
     --- version 0.1 (beta) ---
