@@ -17,6 +17,7 @@
     - Code testing
     - Add a basic bruteforce implementation of searching for strings.
     - Linux support
+    - Handling SIGTERM with reset of colors
 
     An other time:
     --- version (alpha) ---

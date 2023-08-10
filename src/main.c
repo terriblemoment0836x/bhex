@@ -31,6 +31,10 @@ int main(int argc, char  *argv[])
 
     if ( enable_terminal_color() == false ) params->enable_color = false;
 
+    if ( SetConsoleCtrlHandler(handle_ctrl_c, TRUE) == 0 ) {
+        GetLastError();
+    }
+
     bool dump_status = dump_bin(fd, params->column_size, params->column_count,
              params->enable_address, params->enable_ascii, params->enable_color,
              params->number_type, digit_count(16, file_size));

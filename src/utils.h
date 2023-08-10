@@ -84,4 +84,9 @@ uint32_t digit_count(uint32_t base, int64_t number);
 /// @return True on success or False on failure.
 bool enable_terminal_color(); 
 
+
+/// @brief Handler for Ctrl+C to reset the terminal colors
+/// @param dwCtrlType Type of the control signal, this function handles only Ctrl+C
+BOOL handle_ctrl_c(DWORD dwCtrlType);
+
 #endif

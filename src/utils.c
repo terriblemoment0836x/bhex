@@ -169,3 +169,11 @@ bool enable_terminal_color() {
     
     return true;
 }
+
+BOOL handle_ctrl_c(DWORD dwCtrlType) {
+    if ( dwCtrlType == CTRL_C_EVENT ) {
+        printf("\x1b[0;m");
+    }
+
+    return FALSE;
+}
