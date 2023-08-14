@@ -12,12 +12,12 @@
     - make the address relative to the file size
     - Check for color support in the running terminal
     - Set up the repo.
+    - Handling SIGTERM with reset of colors
+    - Add a basic bruteforce implementation of searching for strings.
 
 ### Todo:
     - Code testing
-    - Add a basic bruteforce implementation of searching for strings.
     - Linux support
-    - Handling SIGTERM with reset of colors
 
     An other time:
     --- version (alpha) ---

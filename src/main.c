@@ -15,6 +15,9 @@ int main(int argc, char  *argv[])
         return 1;
     }
 
+    // print_settings(params);
+    // return 0;
+
     FILE* fd = fopen(params->file_path, "rb");
 
     if ( fd == NULL ) {

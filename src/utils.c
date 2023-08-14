@@ -27,6 +27,8 @@ struct settings* init_settings() {
     ptr_param->enable_ascii = true;
     ptr_param->enable_color = true;
     ptr_param->number_type = D_HEXADECIMAL;
+    ptr_param->search_file = false;
+    ptr_param->search_pattern = NULL;
 
     return ptr_param;
 }
@@ -45,17 +47,20 @@ void print_settings(struct settings* param) {
     printf("\tcolumn_size = %u\n", param->column_size);
     printf("\tcolumn_count = %u\n", param->column_count);
     printf("\tnumber_type = %s\n", (param->number_type == D_HEXADECIMAL) ? "hex" : (param->number_type == D_BINARY) ? "bin" : "oct" );
+    printf("\tsearch_file = %c\n", param->search_file == true ? 't' : 'f');
+    printf("\tsearch_pattern = %s\n", (param->search_pattern == NULL) ? "NULL" : param->search_pattern );
 }
 
 void show_help() {
     printf("bhex: An other hex dumper with color support.\n");
-    printf("Usage: hex_dump [-lbf] [-s n] [-c n] [-n hex|oct|bin] FILENAME\n");
+    printf("Usage: hex_dump [-lbf] [-s n] [-c n] [-n hex|oct|bin] [-e string] FILENAME\n");
     printf("\t-l: Don't show the address column.\n");
     printf("\t-b: Disable colors.\n");
     printf("\t-f: Disable ASCII column.\n");
     printf("\t-s n: Set the column size of n number.\n");
     printf("\t-c n: Set the column number to n.\n");
     printf("\t-n hex|oct|bin: Specify the dump type.\n");
+    printf("\t-e string: try to find string in the file.");
     printf("\tFILENAME: a readable file.\n");
 }
 
@@ -65,7 +70,7 @@ bool parse_arguments(int argc, char **argv, struct settings* params) {
     int c;
     bool status;
 
-    while ( (c = getopt(argc, argv, "lbfs:c:n:h")) != -1 ) {
+    while ( (c = getopt(argc, argv, "lbfs:c:n:he:")) != -1 ) {
         switch(c) {
             case 'h':
                 show_help();
@@ -105,6 +110,11 @@ bool parse_arguments(int argc, char **argv, struct settings* params) {
                     return false;
                 }
                 break;
+            case 'e':
+                params->search_file = true;
+                params->search_pattern = optarg;
+                break;
+
             case '?':
                 return false;
             default:

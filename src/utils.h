@@ -39,6 +39,8 @@ struct settings {
     uint32_t column_size;
     uint32_t column_count;
     enum num_types number_type;
+    bool search_file;
+    char * search_pattern;
 };
 
 /// @brief Return a pointer to settings structure containing the default settings.
