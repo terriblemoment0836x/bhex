@@ -39,7 +39,7 @@ int test_buffer_search_hex() {
     int buffer_len = strlen(buffer);
     uint32_t *pr_array = buffer_search_preproccess(pattern, pattern_len);
 
-    uint32_t i = buffer_search(buffer, buffer_len, pattern, pattern_len, pr_array);
+    int i = buffer_search(buffer, buffer_len, pattern, pattern_len, pr_array);
 
     return ! (i == -1);
 }
