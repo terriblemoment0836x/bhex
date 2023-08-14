@@ -4,6 +4,7 @@
 
 #include "utils.h"
 #include "dump.h"
+#include "search.h"
 
 
 int main(int argc, char  *argv[])
@@ -38,13 +39,19 @@ int main(int argc, char  *argv[])
         GetLastError();
     }
 
-    bool dump_status = dump_bin(fd, params->column_size, params->column_count,
-             params->enable_address, params->enable_ascii, params->enable_color,
-             params->number_type, digit_count(16, file_size));
+    if ( params->search_file == true ) {
+        search_file(fd, params);
+    } else {
+        bool dump_status = dump_bin(fd, params->column_size, params->column_count,
+                                    params->enable_address, params->enable_ascii, params->enable_color,
+                                    params->number_type, digit_count(16, file_size));
 
-    if ( dump_status == false ) {
-        perror("An error occured while dumping the file.\n");
+        if (dump_status == false)
+        {
+            perror("An error occured while dumping the file.\n");
+        }
     }
+
 
     fclose(fd);
     free_settings(params);

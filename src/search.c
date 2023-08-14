@@ -22,7 +22,7 @@ uint32_t *buffer_search_preproccess(uint8_t *pattern, uint32_t pattern_size) {
     return preproccessing_array;
 }
 
-uint32_t buffer_search(uint8_t *buffer, uint32_t buffer_size, uint8_t *pattern, uint32_t pattern_size, uint32_t *preproccessing_array) {
+int buffer_search(uint8_t *buffer, uint32_t buffer_size, uint8_t *pattern, uint32_t pattern_size, uint32_t *preproccessing_array) {
     int i = pattern_size - 1;
     int j, t;
 
@@ -46,5 +46,22 @@ uint32_t buffer_search(uint8_t *buffer, uint32_t buffer_size, uint8_t *pattern, 
 }
 
 bool search_file(FILE* fd, struct settings* params) {
+    const uint32_t buffer_size = 512;
+    uint8_t *buffer = (uint8_t*) malloc(sizeof(uint8_t) * buffer_size + 1);
+    uint32_t byte_read;
+    uint32_t shift = 0;
+    uint32_t pattern_len = strlen(params->search_pattern);
+    uint32_t *prepr_array = buffer_search_preproccess(params->search_pattern, pattern_len);
+    int i;
 
+    while ( !feof(fd) ) {
+        byte_read = fread(buffer + shift, sizeof(uint8_t), buffer_size - shift, fd);
+        if ( shift == 0 ) shift = pattern_len;
+        if ( buffer_search(buffer, byte_read, params->search_pattern, pattern_len, prepr_array) != -1 ) {
+            printf("We found %s in the file\n", params->search_pattern);
+        }
+
+    }
+
+    free(prepr_array);
 }

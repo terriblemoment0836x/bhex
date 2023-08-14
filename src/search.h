@@ -13,7 +13,7 @@
 /// @param pattern The pattern to be searched for.
 /// @param pattern_size size of pattern
 /// @return The starting position of the pattern or -1 if it's not found.
-uint32_t buffer_search(uint8_t *buffer, uint32_t buffer_size,
+int buffer_search(uint8_t *buffer, uint32_t buffer_size,
                        uint8_t *pattern, uint32_t pattern_size,
                        uint32_t *preproccessing_array);
 
