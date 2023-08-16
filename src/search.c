@@ -47,20 +47,43 @@ int buffer_search(uint8_t *buffer, uint32_t buffer_size, uint8_t *pattern, uint3
 
 bool search_file(FILE* fd, struct settings* params) {
     uint32_t pattern_len = strlen(params->search_pattern);
-    const uint32_t buffer_size = 10*pattern_len;
+    // const uint32_t buffer_size = 300*pattern_len;
+    const uint32_t buffer_size = 5;
+    assert(pattern_len < buffer_size);
     uint8_t *buffer = (uint8_t*) malloc(sizeof(uint8_t) * buffer_size + 1);
     uint32_t byte_read;
     uint32_t shift = 0;
     uint32_t *prepr_array = buffer_search_preproccess(params->search_pattern, pattern_len);
+    int pattern_index;
     int i;
+    int past_reads = -1;
+    int file_place = 0;
 
     while ( !feof(fd) ) {
+        i = 0;
         byte_read = fread(buffer + shift, sizeof(uint8_t), buffer_size - shift, fd);
+        ++past_reads;
         if ( shift == 0 ) shift = pattern_len;
-        if ( buffer_search(buffer, buffer_size, params->search_pattern, pattern_len, prepr_array) != -1 ) {
-            printf("We found %s in the file\n", params->search_pattern);
+        pattern_index = buffer_search(buffer + i, buffer_size, params->search_pattern, pattern_len, prepr_array);
+
+        while ( pattern_index != -1 ) {
+            i = pattern_index + pattern_len;
+            printf("We found %s in the file at %x.\n", params->search_pattern, (past_reads)*(buffer_size) + pattern_index);
+            if ( pattern_index == buffer_size - pattern_len) shift = 0;
+            pattern_index = buffer_search(buffer + i, buffer_size, params->search_pattern, pattern_len, prepr_array);
+            if ( pattern_index != -1 ) pattern_index += i;
         }
-        memcpy(buffer, buffer + byte_read - pattern_len - 1, pattern_len);
+
+
+        // if ( (pattern_index = buffer_search(buffer, buffer_size, params->search_pattern, pattern_len, prepr_array)) != -1 ) {
+        //     printf("We found %s in the file\n", params->search_pattern);
+        //     if ( pattern_index == buffer_size - pattern_len)
+        //         shift = 0;
+        // }
+
+        if ( ! feof(fd) && shift != 0 ) {
+            memcpy(buffer, buffer + buffer_size - pattern_len, pattern_len);
+        }
     }
 
     free(prepr_array);
