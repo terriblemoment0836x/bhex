@@ -25,10 +25,13 @@
 /// @param show_ascii Whether to show the ascii decoding of each line
 /// @param enable_colors Whether to show matching colors for strings in th dump and the ascii parts.
 /// @param number_type A enum num_types representing the base used for the dump.
+/// @param start_address the address to start from in the first column (not this function don't fseek to that address)
+/// @param line_number how many line dump_bin should print, 0 until the end of the file.
 /// @return false on error and true on success.
 bool dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
               bool show_address, bool show_ascii, bool enable_colors,
-              enum num_types number_type, uint32_t address_digit_count);
+              enum num_types number_type, uint32_t address_digit_count,
+                uint32_t start_address, int line_count);
 
 /// @brief Print to stdout buff from start to end as hex, bin or oct specified by number_type
 /// @param buff pointer to char buffer

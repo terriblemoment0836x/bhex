@@ -47,8 +47,8 @@ int buffer_search(uint8_t *buffer, uint32_t buffer_size, uint8_t *pattern, uint3
 
 bool search_file(FILE* fd, struct settings* params) {
     uint32_t pattern_len = strlen(params->search_pattern);
-    // const uint32_t buffer_size = 300*pattern_len;
-    const uint32_t buffer_size = 5;
+    const uint32_t buffer_size = 2*pattern_len;
+    // const uint32_t buffer_size = 5;
     assert(pattern_len < buffer_size);
     uint8_t *buffer = (uint8_t*) malloc(sizeof(uint8_t) * buffer_size + 1);
     uint32_t byte_read;
@@ -61,16 +61,26 @@ bool search_file(FILE* fd, struct settings* params) {
 
     while ( !feof(fd) ) {
         i = 0;
-        byte_read = fread(buffer + shift, sizeof(uint8_t), buffer_size - shift, fd);
+        file_place = ftell(fd);
+        byte_read = fread(buffer, sizeof(uint8_t), buffer_size, fd);
         ++past_reads;
         if ( shift == 0 ) shift = pattern_len;
-        pattern_index = buffer_search(buffer + i, buffer_size, params->search_pattern, pattern_len, prepr_array);
+        pattern_index = buffer_search(buffer + i, byte_read, params->search_pattern, pattern_len, prepr_array);
 
         while ( pattern_index != -1 ) {
             i = pattern_index + pattern_len;
-            printf("We found %s in the file at %x.\n", params->search_pattern, (past_reads)*(buffer_size) + pattern_index);
+
+            // printf("We found %s in the file in %d.\n", params->search_pattern,file_place + pattern_index);
+            int t = ftell(fd);
+            fseek(fd, file_place + pattern_index, SEEK_SET);
+            bool dump_status = dump_bin(fd, params->column_size, params->column_count,
+                                        params->enable_address, params->enable_ascii, params->enable_color,
+                                        params->number_type, digit_count(16, file_place + pattern_index), file_place + pattern_index, 2);
+            printf("\n");
+            fseek(fd, t, SEEK_SET);
+
             if ( pattern_index == buffer_size - pattern_len) shift = 0;
-            pattern_index = buffer_search(buffer + i, buffer_size, params->search_pattern, pattern_len, prepr_array);
+            pattern_index = buffer_search(buffer + i, byte_read, params->search_pattern, pattern_len, prepr_array);
             if ( pattern_index != -1 ) pattern_index += i;
         }
 
@@ -81,9 +91,10 @@ bool search_file(FILE* fd, struct settings* params) {
         //         shift = 0;
         // }
 
-        if ( ! feof(fd) && shift != 0 ) {
-            memcpy(buffer, buffer + buffer_size - pattern_len, pattern_len);
-        }
+        if (shift != 0 && !feof(fd)) fseek(fd, -pattern_len, SEEK_CUR);
+        // if ( ! feof(fd) && shift != 0 ) {
+        //     memcpy(buffer, buffer + buffer_size - pattern_len, pattern_len);
+        // }
     }
 
     free(prepr_array);

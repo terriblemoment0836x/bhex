@@ -44,7 +44,7 @@ int main(int argc, char  *argv[])
     } else {
         bool dump_status = dump_bin(fd, params->column_size, params->column_count,
                                     params->enable_address, params->enable_ascii, params->enable_color,
-                                    params->number_type, digit_count(16, file_size));
+                                    params->number_type, digit_count(16, file_size), 0, 0);
 
         if (dump_status == false)
         {

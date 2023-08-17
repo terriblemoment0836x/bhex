@@ -2,7 +2,8 @@
 
 bool dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
                  bool show_address, bool show_ascii, bool enable_colors,
-                 enum num_types number_type, uint32_t address_digit_count)
+                 enum num_types number_type, uint32_t address_digit_count,
+                 uint32_t start_address, int line_count)
 {
     if (fd == NULL) return false;
     if (column_count == 0 || column_size == 0) return false;
@@ -24,16 +25,17 @@ bool dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
     uint8_t t = 0;
     const uint8_t ascii_distance = 8;
     uint32_t file_position = 0;
+    uint8_t till_end = line_count == 0;
 
     do {
         bytes_read = fread(input_buffer, sizeof(char), buffer_size, fd);
         buffer_index = 0;
 
-        while ( buffer_index < bytes_read ) {
+        while ( buffer_index < bytes_read  && (line_count-- > 0 || till_end == 1)) {
             line_end = min(buffer_index + line_size, bytes_read);
 
             if (show_address == true) {
-                t = printf("0x%0*x:\t", address_digit_count, file_position + buffer_index);
+                t = printf("0x%0*x:\t", address_digit_count, file_position + buffer_index + start_address);
             }
 
             if ( print_line_dump(input_buffer, buffer_index, line_end, column_size, number_type, enable_colors) == false ) 
@@ -55,7 +57,7 @@ bool dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
 
     if ( ferror(fd) ) return false;
 
-    if (show_address == true) printf("0x%0*x:\t", address_digit_count, file_position);
+    if (show_address == true) printf("0x%0*x:\t", address_digit_count, file_position + start_address);
 
     free(input_buffer);
 

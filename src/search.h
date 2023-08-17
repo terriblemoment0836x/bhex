@@ -7,6 +7,7 @@
 #include <assert.h>
 
 #include "utils.h"
+#include "dump.h"
 
 /// @brief Search for the first occurence of pattern in buffer using the bad character heuristic and return its starting position.
 /// @param buffer Buffer where the function will search for the pattern.
