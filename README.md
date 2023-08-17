@@ -24,7 +24,7 @@ hex_dump [-lbf] [-s n] [-c n] [-n hex|oct|bin] FILENAME
         -l: Don't show the address column.
         -b: Disable colors.
         -f: Disable ASCII column.
-        -s n: Set the column size of n number.
+        -s n: Set the column size to n.
         -c n: Set the column number to n.
         -n hex|oct|bin: Specify the dump type.
         -e string: try to find string in the file, you can use \\xAB to specify a hex byte.

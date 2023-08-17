@@ -59,7 +59,7 @@ void show_help() {
     printf("\t-l: Don't show the address column.\n");
     printf("\t-b: Disable colors.\n");
     printf("\t-f: Disable ASCII column.\n");
-    printf("\t-s n: Set the column size of n number.\n");
+    printf("\t-s n: Set the column size to n.\n");
     printf("\t-c n: Set the column number to n.\n");
     printf("\t-n hex|oct|bin: Specify the dump type.\n");
     printf("\t-e string: try to find string in the file, you can use \\xAB to specify a hex byte.\n");
