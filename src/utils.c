@@ -60,7 +60,7 @@ void show_help() {
     printf("\t-s n: Set the column size of n number.\n");
     printf("\t-c n: Set the column number to n.\n");
     printf("\t-n hex|oct|bin: Specify the dump type.\n");
-    printf("\t-e string: try to find string in the file.");
+    printf("\t-e string: try to find string in the file.\n");
     printf("\tFILENAME: a readable file.\n");
 }
 
