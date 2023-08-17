@@ -27,5 +27,6 @@ hex_dump [-lbf] [-s n] [-c n] [-n hex|oct|bin] FILENAME
         -s n: Set the column size of n number.
         -c n: Set the column number to n.
         -n hex|oct|bin: Specify the dump type.
+        -e string: try to find string in the file, you can use \\xAB to specify a hex byte.
         FILENAME: a readable file.
 ```
