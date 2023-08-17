@@ -78,7 +78,7 @@ bool search_file(FILE* fd, struct settings* params) {
             printf("Match at %#x:\n", file_pattern_address);
             bool dump_status = dump_bin(fd, params->column_size, params->column_count,
                                         params->enable_address, params->enable_ascii, params->enable_color,
-                                        params->number_type, digit_count(16, file_pattern_address), file_pattern_address, 2);
+                                        params->number_type, digit_count(16, file_pattern_address + 20), file_pattern_address, 2);
             if ( dump_status == false ) return false;
             printf("\n\n");
             fseek(fd, t, SEEK_SET);
