@@ -40,6 +40,12 @@ int main(int argc, char  *argv[])
     }
 
     if ( params->search_file == true ) {
+       params->search_pattern_len = parse_hex_string(params->search_pattern);
+        // for (int i = 0; i < length; i++) {
+        //     printf("0x%x ", params->search_pattern[i]);
+        // }
+        // printf("\n");
+        // return 0;
         search_file(fd, params);
     } else {
         bool dump_status = dump_bin(fd, params->column_size, params->column_count,

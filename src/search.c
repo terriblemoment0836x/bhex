@@ -46,7 +46,7 @@ int buffer_search(uint8_t *buffer, uint32_t buffer_size, uint8_t *pattern, uint3
 }
 
 bool search_file(FILE* fd, struct settings* params) {
-    uint32_t pattern_len = strlen(params->search_pattern);
+    uint32_t pattern_len = params->search_pattern_len; 
     const uint32_t buffer_size = 2*pattern_len;
     // const uint32_t buffer_size = 5;
     assert(pattern_len < buffer_size);

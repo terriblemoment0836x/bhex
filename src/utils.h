@@ -41,6 +41,7 @@ struct settings {
     enum num_types number_type;
     bool search_file;
     char * search_pattern;
+    uint32_t search_pattern_len;
 };
 
 /// @brief Return a pointer to settings structure containing the default settings.
@@ -90,5 +91,9 @@ bool enable_terminal_color();
 /// @brief Handler for Ctrl+C to reset the terminal colors
 /// @param dwCtrlType Type of the control signal, this function handles only Ctrl+C
 BOOL handle_ctrl_c(DWORD dwCtrlType);
+
+/// @brief Convert \xab in the string to their corresponding character.
+/// @brief hex_str the string that will be converted
+int parse_hex_string(char * hex_str);
 
 #endif

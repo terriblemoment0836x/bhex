@@ -29,6 +29,7 @@ struct settings* init_settings() {
     ptr_param->number_type = D_HEXADECIMAL;
     ptr_param->search_file = false;
     ptr_param->search_pattern = NULL;
+    ptr_param->search_pattern_len = 0;
 
     return ptr_param;
 }
@@ -49,6 +50,7 @@ void print_settings(struct settings* param) {
     printf("\tnumber_type = %s\n", (param->number_type == D_HEXADECIMAL) ? "hex" : (param->number_type == D_BINARY) ? "bin" : "oct" );
     printf("\tsearch_file = %c\n", param->search_file == true ? 't' : 'f');
     printf("\tsearch_pattern = %s\n", (param->search_pattern == NULL) ? "NULL" : param->search_pattern );
+    // pattern_len
 }
 
 void show_help() {
@@ -186,4 +188,32 @@ BOOL handle_ctrl_c(DWORD dwCtrlType) {
     }
 
     return FALSE;
+}
+
+int parse_hex_string(char * hex_str) {
+    int hex_str_len = strlen(hex_str);
+    int i;
+
+    for (i = 0; i < hex_str_len - 1; i++) {
+        if ( hex_str[i] == '\\' && hex_str[i+1] == 'x' && ( hex_str[i-1] != '\\' || i == 0 ) && hex_str_len - i - 4 >= 0) {
+                char t, c;
+                t = hex_str[i + 4];
+                hex_str[i + 4] = '\0';
+                char *ptr;
+                int n = strtol(hex_str + i + 2, &ptr, 16);
+                hex_str[i + 4] = t;
+                if ( ptr != hex_str + i + 4) continue;
+                snprintf(hex_str + i, 2, "%c", n);
+                hex_str[i+1] = 'x';
+                if ( hex_str_len -i - 4 == 0) {
+                    hex_str[i + 1] = '\0';
+                    return i + 1;
+                } else {
+                    memmove(hex_str + i + 1, hex_str + i + 4, hex_str_len - i - 4 + 1);
+                    hex_str_len -= 3;
+                }
+            }
+    }
+
+    return hex_str_len;
 }
