@@ -7,7 +7,7 @@ bhex is a simple console hex dumping utility with color support.
   - Support for dumping a file in hexadecimal, binary or octal format.
   - Color support to match strings in the dump with the ASCII representation.
   - Choice of the columns count and size.
-  - Ability to search for strings in a file (Work in progress).
+  - Ability to search for strings in a file.
   - Supports Windows and Linux (Currently Windows only).
 ## Build
 cmake and a ucrt64 toolchain are needed to build the program.
