@@ -4,7 +4,7 @@
 uint32_t *buffer_search_preproccess(uint8_t *pattern, uint32_t pattern_size) {
     int i;
     int j;
-    uint32_t *preproccessing_array = (uint32_t*) malloc(sizeof(uint32_t) * 256); // 255 is the alphabet length
+    uint32_t *preproccessing_array = (uint32_t*) malloc(sizeof(uint32_t) * 256); // 256 is the alphabet length
 
     assert(preproccessing_array != NULL);
 
