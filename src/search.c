@@ -56,27 +56,31 @@ bool search_file(FILE* fd, struct settings* params) {
     uint32_t *prepr_array = buffer_search_preproccess(params->search_pattern, pattern_len);
     int pattern_index;
     int i;
-    int past_reads = -1;
+    // int past_reads = -1;
     int file_place = 0;
+    uint32_t file_pattern_address;
 
     while ( !feof(fd) ) {
         i = 0;
         file_place = ftell(fd);
         byte_read = fread(buffer, sizeof(uint8_t), buffer_size, fd);
-        ++past_reads;
+        // ++past_reads;
         if ( shift == 0 ) shift = pattern_len;
         pattern_index = buffer_search(buffer + i, byte_read, params->search_pattern, pattern_len, prepr_array);
 
         while ( pattern_index != -1 ) {
             i = pattern_index + pattern_len;
+            file_pattern_address = file_place + pattern_index;
 
             // printf("We found %s in the file in %d.\n", params->search_pattern,file_place + pattern_index);
             int t = ftell(fd);
-            fseek(fd, file_place + pattern_index, SEEK_SET);
+            fseek(fd, file_pattern_address, SEEK_SET);
+            printf("Match at %#x:\n", file_pattern_address);
             bool dump_status = dump_bin(fd, params->column_size, params->column_count,
                                         params->enable_address, params->enable_ascii, params->enable_color,
-                                        params->number_type, digit_count(16, file_place + pattern_index), file_place + pattern_index, 2);
-            printf("\n");
+                                        params->number_type, digit_count(16, file_pattern_address), file_pattern_address, 2);
+            if ( dump_status == false ) return false;
+            printf("\n\n");
             fseek(fd, t, SEEK_SET);
 
             if ( pattern_index == buffer_size - pattern_len) shift = 0;
