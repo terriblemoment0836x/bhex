@@ -1,13 +1,25 @@
 #ifndef _H_UTILS_
 #define _H_UTILS_
+
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <unistd.h>
 #include <string.h>
+#ifdef HAVE_WINDOWS_H
 #include <windows.h>
-#include <fileapi.h>
+#else
+#include <sys/stat.h>
+#define DWORD long int
+#define BOOL bool
+#define FALSE false
+#define TRUE true
+#define max(x, y) (((x) > (y)) ? (x) : (y))
+#define min(x, y) (((x) < (y)) ? (x) : (y))
+#endif
 #include <assert.h>
 #include <math.h>
 

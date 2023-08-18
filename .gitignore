@@ -5,9 +5,11 @@
 
 
 build/
+build_linux/
 .cache/
 .vscode/
 bin/
+src/config.h
 
 # Object files
 *.o

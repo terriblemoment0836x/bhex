@@ -1,10 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#else
+#include <signal.h>
+#endif
 
+#include "config.h"
 #include "utils.h"
 #include "dump.h"
 #include "search.h"
+
+#ifndef HAVE_WINDOWS_H
+static void handle_sigterm(int signo) {
+        printf("\x1b[0;m");
+}
+#endif
 
 
 int main(int argc, char  *argv[])
@@ -33,11 +45,17 @@ int main(int argc, char  *argv[])
 
     uint64_t file_size = get_file_size(params->file_path);
 
+#ifdef HAVE_WINDOWS_H
     if ( enable_terminal_color() == false ) params->enable_color = false;
 
     if ( SetConsoleCtrlHandler(handle_ctrl_c, TRUE) == 0 ) {
         GetLastError();
     }
+#else
+    if ( signal(SIGTERM, handle_sigterm) == SIG_ERR ) {
+        perror("Can't set handler for SIGTERM.\n");
+    }
+#endif
 
     if ( params->search_file == true ) {
        params->search_pattern_len = parse_hex_string(params->search_pattern);
