@@ -1,6 +1,7 @@
 #include <string.h>
-#include "../src/search.h"
 #include <stdint.h>
+
+#include "../src/search.h"
 
 int test_buffer_search_preproccess() {
 

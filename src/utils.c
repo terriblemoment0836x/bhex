@@ -205,7 +205,7 @@ int parse_hex_string(char * hex_str) {
 
     for (i = 0; i < hex_str_len - 1; i++) {
         if ( hex_str[i] == '\\' && hex_str[i+1] == 'x' && ( hex_str[i-1] != '\\' || i == 0 ) && hex_str_len - i - 4 >= 0) {
-                char t, c;
+                char t;
                 t = hex_str[i + 4];
                 hex_str[i + 4] = '\0';
                 char *ptr;
