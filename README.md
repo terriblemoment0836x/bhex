@@ -10,7 +10,7 @@ bhex is a simple console hex (also other bases) dumping utility with color suppo
   - Ability to search for strings in a file.
   - Supports Windows and Linux.
 ## Build
-cmake and a c toolchain are needed to build the program.
+CMake and C toolchain are needed to build the program.
 ```cmd
 mkdir bin build
 cd build
