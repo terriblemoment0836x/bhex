@@ -1,5 +1,9 @@
-# bhex (Beyond Hex)
-bhex is a simple console hex (also other bases) dumping utility with color support.
+<div align="center">
+  <img width="120" src="https://github.com/terriblemoment0836x/bhex/blob/main/icon/icon.jpg?raw=true" >
+  <h1>bhex</h1>
+  bhex (beyound hex) is a simple console hex (also other bases) dumping utility with color support.
+  </div>
+
 ## Screenshot:
 ![Example hex dump of an jpg image](https://i.imgur.com/33ot5DO.png)
 
