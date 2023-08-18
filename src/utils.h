@@ -7,7 +7,11 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
+#ifdef HAVE_WINDOWS_H
+#include "getopt.h"
+#else
 #include <unistd.h>
+#endif
 #include <string.h>
 #ifdef HAVE_WINDOWS_H
 #include <windows.h>

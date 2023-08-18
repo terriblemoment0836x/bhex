@@ -11,7 +11,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin/)
 
 
 
-add_executable(bhex src/main.c src/dump.c src/search.c src/utils.c)
+add_executable(bhex src/main.c src/dump.c src/search.c src/utils.c src/getopt.c)
 target_link_libraries(bhex m)
 
 add_executable(test_search test/test_search.c src/search.c src/dump.c  src/utils.c)
