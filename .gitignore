@@ -10,6 +10,7 @@ build_linux/
 .vscode/
 bin/
 src/config.h
+icon/*
 
 # Object files
 *.o
