@@ -47,7 +47,7 @@ int buffer_search(uint8_t *buffer, uint32_t buffer_size, uint8_t *pattern, uint3
 
 bool search_file(FILE* fd, struct settings* params) {
     uint32_t pattern_len = params->search_pattern_len; 
-    const uint32_t buffer_size = 2*pattern_len;
+    const uint32_t buffer_size = 300*pattern_len;
     // const uint32_t buffer_size = 5;
     assert(pattern_len < buffer_size);
     uint8_t *buffer = (uint8_t*) malloc(sizeof(uint8_t) * buffer_size + 1);
@@ -95,7 +95,7 @@ bool search_file(FILE* fd, struct settings* params) {
         //         shift = 0;
         // }
 
-        if (shift != 0 && !feof(fd)) fseek(fd, -pattern_len, SEEK_CUR);
+        if (shift != 0 && !feof(fd)) fseek(fd, - (int)pattern_len, SEEK_CUR);
         // if ( ! feof(fd) && shift != 0 ) {
         //     memcpy(buffer, buffer + buffer_size - pattern_len, pattern_len);
         // }

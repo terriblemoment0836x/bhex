@@ -1,6 +1,7 @@
 #include "utils.h"
 
 uint64_t get_file_size(char * file_path) {
+    #ifdef HAVE_WINDOWS_H
     HANDLE hfile = CreateFile(file_path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
     LARGE_INTEGER size;
 
@@ -13,6 +14,11 @@ uint64_t get_file_size(char * file_path) {
     CloseHandle(hfile);
 
     return size.QuadPart;
+    #else
+    struct stat st;
+    stat(file_path, &st);
+    return st.st_size;
+    #endif
 }
 
 struct settings* init_settings() {
@@ -156,11 +162,12 @@ uint32_t str_to_posint32(char *str, bool *status) {
 }
 
 uint32_t digit_count(uint32_t base, int64_t number) {
-    return floor( log2(_abs64(number))/log2(base) ) + 1;
+    return floor( log2(labs(number))/log2(base) ) + 1;
 }
 
 bool enable_terminal_color() {
     // Set output mode to handle virtual terminal sequences
+    #ifdef HAVE_WINDOWS_H
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     if (hOut == INVALID_HANDLE_VALUE)
     {
@@ -178,14 +185,16 @@ bool enable_terminal_color() {
     {
         return GetLastError();
     }
-    
+    #endif 
     return true;
 }
 
 BOOL handle_ctrl_c(DWORD dwCtrlType) {
+    #ifdef HAVE_WINDOWS_H
     if ( dwCtrlType == CTRL_C_EVENT ) {
         printf("\x1b[0;m");
     }
+    #endif
 
     return FALSE;
 }
