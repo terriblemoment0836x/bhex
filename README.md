@@ -1,4 +1,4 @@
-# bhex (Beyond Hex) (Work in progress)
+# bhex (Beyond Hex)
 bhex is a simple console hex (also other bases) dumping utility with color support.
 ## Screenshot:
 ![Example hex dump of an jpg image](https://i.imgur.com/33ot5DO.png)
@@ -8,16 +8,20 @@ bhex is a simple console hex (also other bases) dumping utility with color suppo
   - Color support to match strings in the dump with the ASCII representation.
   - Choice of the columns count and size.
   - Ability to search for strings in a file.
-  - Supports Windows and Linux (Currently Windows only).
+  - Supports Windows and Linux.
 ## Build
-cmake and a ucrt64 toolchain are needed to build the program.
+cmake and a c toolchain are needed to build the program.
 ```cmd
 mkdir bin build
 cd build
-cmake ..
-make (or ming32-make)
+cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake --build . 
 ```
-## Installation: (WIP)
+### Running
+```cmd
+cd bin
+./bhex (or .\bhex.exe)
+```
 ## Usage:
 ```
 hex_dump [-lbf] [-s n] [-c n] [-n hex|oct|bin] FILENAME
