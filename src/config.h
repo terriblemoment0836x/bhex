@@ -1,1 +1,1 @@
-/* #undef HAVE_WINDOWS_H */
+#define HAVE_WINDOWS_H

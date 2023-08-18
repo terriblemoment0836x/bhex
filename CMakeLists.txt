@@ -4,12 +4,12 @@ project(bhex)
 include(CTest)
 include(CheckIncludeFiles)
 
-check_include_files( windows.h HAVE_WINDOWS_H )
+check_include_files(windows.h HAVE_WINDOWS_H)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/src/config.h)
 # set(CMAKE_C_COMPILER x86_64-w64-mingw32-cc)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin/)
 
-set(CMAKE_C_FLAGS "-g -Wall -Wextra")
+
 
 add_executable(bhex src/main.c src/dump.c src/search.c src/utils.c)
 target_link_libraries(bhex m)
