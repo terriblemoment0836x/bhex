@@ -9,8 +9,8 @@ bhex is a simple console hex (also other bases) dumping utility with color suppo
   - Choice of the columns count and size.
   - Ability to search for strings in a file.
   - Supports Windows and Linux.
-## Build
-cmake and a c toolchain are needed to build the program.
+## Building
+CMake and C toolchain are needed to build the program.
 ```cmd
 mkdir bin build
 cd build
@@ -22,7 +22,7 @@ cmake --build .
 cd bin
 ./bhex (or .\bhex.exe)
 ```
-## Usage:
+### Usage:
 ```
 hex_dump [-lbf] [-s n] [-c n] [-n hex|oct|bin] FILENAME
         -l: Don't show the address column.
