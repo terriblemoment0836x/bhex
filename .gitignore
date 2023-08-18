@@ -11,6 +11,7 @@ build_linux/
 bin/
 src/config.h
 icon/*
+!icon/*.jpg
 
 # Object files
 *.o
