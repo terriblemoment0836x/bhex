@@ -13,12 +13,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin/)
 
 
 add_executable(bhex src/main.c src/dump.c src/search.c src/utils.c src/getopt.c)
-if(CMAKE_SYSTEM_NAME EQUAL "Linux")
+if(UNIX)
 target_link_libraries(bhex m)
 endif()
 
 add_executable(test_search test/test_search.c src/search.c src/dump.c  src/utils.c src/getopt.c)
-if(CMAKE_SYSTEM_NAME EQUAL "Linux")
+if(UNIX)
 target_link_libraries(test_search m)
 endif()
 add_test(test_search::buffer_search_preproccess ../bin/test_search buffer_search_preproccess)
