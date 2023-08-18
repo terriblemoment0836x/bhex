@@ -3,6 +3,7 @@
   <h1>bhex</h1>
 
 [![Linux build](https://github.com/terriblemoment0836x/bhex/actions/workflows/linux_build.yml/badge.svg)](https://github.com/terriblemoment0836x/bhex/actions/workflows/linux_build.yml)
+[![Windows build](https://github.com/terriblemoment0836x/bhex/actions/workflows/windows_build.yml/badge.svg)](https://github.com/terriblemoment0836x/bhex/actions/workflows/windows_build.yml)
   
   bhex (beyound hex) is a simple console hex (also other bases) dumping utility with color support.
   </div>
