@@ -17,7 +17,7 @@ if(CMAKE_SYSTEM_NAME EQUAL "Linux")
 target_link_libraries(bhex m)
 endif()
 
-add_executable(test_search test/test_search.c src/search.c src/dump.c  src/utils.c)
+add_executable(test_search test/test_search.c src/search.c src/dump.c  src/utils.c src/getopt.c)
 if(CMAKE_SYSTEM_NAME EQUAL "Linux")
 target_link_libraries(test_search m)
 endif()
