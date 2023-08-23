@@ -57,7 +57,7 @@ bool dump_bin(FILE *fd, uint32_t column_size, uint32_t column_count,
 
     if ( ferror(fd) ) return false;
 
-    if (show_address == true) printf("0x%0*x:\t", address_digit_count, file_position + start_address);
+    if (show_address == true) printf("0x%0*x:\n", address_digit_count, file_position + start_address);
 
     free(input_buffer);
 
